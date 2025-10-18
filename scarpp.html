@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SRAPP - Smart Rental Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #1a4b8c;
+            --secondary-blue: #2c6fb7;
+            --accent-green: #2e8b57;
+            --light-green: #e8f5e9;
+            --white: #ffffff;
+            --light-gray: #f5f5f5;
+            --dark-gray: #333333;
+            --medium-gray: #666666;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            color: var(--dark-gray);
+            line-height: 1.6;
+            background-color: var(--white);
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header & Navigation */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo h1 {
+            color: var(--primary-blue);
+            font-size: 1.8rem;
+            margin-left: 10px;
+        }
+        
+        .logo-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-gray);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent-green);
+        }
+        
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--primary-blue);
+        }
+        
+        .cta-button {
+            background-color: var(--accent-green);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: inline-block;
+            border: 2px solid var(--accent-green);
+        }
+        
+        .cta-button:hover {
+            background-color: transparent;
+            color: var(--accent-green);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="0.1" d="M0,96L48,112C96,128,192,160,288,186.7C384,213,480,235,576,213.3C672,192,768,128,864,128C960,128,1056,192,1152,192C1248,192,1344,128,1392,96L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        /* Sections */
+        section {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            color: var(--primary-blue);
+            font-size: 2.2rem;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--accent-green);
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            color: var(--accent-green);
+            margin-bottom: 30px;
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+        
+        /* Problem & Solution */
+        .problem-solution {
+            background-color: var(--light-gray);
+        }
+        
+        .two-column {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+        
+        .column {
+            flex: 1;
+        }
+        
+        .column h3 {
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+        
+        .column ul {
+            list-style-position: inside;
+            margin-left: 0;
+        }
+        
+        .column li {
+            margin-bottom: 10px;
+            padding-left: 10px;
+        }
+        
+        .image-container {
+            width: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s;
+        }
+        
+        .image-container img:hover {
+            transform: scale(1.05);
+        }
+        
+        /* Features */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: center;
+            border-top: 4px solid var(--accent-green);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+        }
+        
+        .feature-card h3 {
+            color: var(--primary-blue);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        /* Market & Monetization */
+        .market-monetization {
+            background-color: var(--light-green);
+        }
+        
+        .monetization-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .monetization-table th, .monetization-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .monetization-table th {
+            background-color: var(--primary-blue);
+            color: white;
+        }
+        
+        .monetization-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .monetization-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        /* Team */
+        .team-member {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            align-items: flex-start;
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .team-member-info {
+            flex: 1;
+        }
+        
+        .team-member h3 {
+            color: var(--primary-blue);
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+        
+        .team-member p {
+            margin-bottom: 5px;
+        }
+        
+        .team-icon {
+            font-size: 2rem;
+            color: var(--accent-green);
+            margin-top: 10px;
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--accent-green) 100%);
+            color: white;
+            text-align: center;
+            padding: 80px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23000000" fill-opacity="0.1" d="M0,128L48,138.7C96,149,192,171,288,165.3C384,160,480,128,576,133.3C672,139,768,181,864,181.3C960,181,1056,139,1152,138.7C1248,139,1344,181,1392,202.7L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .cta-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .cta-section p {
+            max-width: 700px;
+            margin: 0 auto 30px;
+            font-size: 1.1rem;
+        }
+        
+        .contact-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark-gray);
+            color: white;
+            padding: 50px 0 20px;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+        
+        .footer-column {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-column h3 {
+            color: var(--accent-green);
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+        
+        .footer-column p, .footer-column a {
+            color: #ccc;
+            margin-bottom: 10px;
+            display: block;
+            text-decoration: none;
+        }
+        
+        .footer-column a:hover {
+            color: white;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transition: background-color 0.3s;
+        }
+        
+        .social-icons a:hover {
+            background-color: var(--accent-green);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #444;
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        /* Screenshot Gallery */
+        .screenshot-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .screenshot-item {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+            transition: transform 0.3s, box-shadow 0.3s;
+            background: white;
+            border: 1px solid #eaeaea;
+        }
+        
+        .screenshot-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .screenshot-img {
+            width: 100%;
+            height: 500px;
+            object-fit: contain;
+            display: block;
+            background-color: #f8f8f8;
+        }
+        
+        .screenshot-caption {
+            padding: 15px;
+            background: white;
+            border-top: 1px solid #eaeaea;
+        }
+        
+        .screenshot-caption h4 {
+            color: var(--primary-blue);
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .screenshot-caption p {
+            color: var(--medium-gray);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 1024px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .screenshot-img {
+                height: 400px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background-color: var(--white);
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                padding-top: 50px;
+                transition: left 0.3s ease;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            }
+            
+            .nav-links.active {
+                left: 0;
+            }
+            
+            .nav-links li {
+                margin: 15px 0;
+            }
+            
+            .hero {
+                padding: 80px 0;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .two-column {
+                flex-direction: column;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .feature-card {
+                padding: 20px;
+            }
+            
+            .team-member {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .team-icon {
+                align-self: center;
+            }
+            
+            .contact-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .contact-buttons a {
+                width: 100%;
+                max-width: 250px;
+                text-align: center;
+            }
+            
+            .screenshot-gallery {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .screenshot-img {
+                height: 300px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .section-title {
+                font-size: 1.6rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .monetization-table {
+                font-size: 0.9rem;
+            }
+            
+            .monetization-table th, .monetization-table td {
+                padding: 10px;
+            }
+            
+            .footer-column {
+                min-width: 100%;
+            }
+            
+            .screenshot-gallery {
+                grid-template-columns: 1fr;
+            }
+            
+            .screenshot-img {
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <h1>SRAPP</h1>
+                </div>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#problem">Problem</a></li>
+                    <li><a href="#solution">Solution</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#screenshots">Screenshots</a></li>
+                    <li><a href="#market">Market</a></li>
+                    <li><a href="#team">Team</a></li>
+                    <li><a href="#contact" class="cta-button">Contact Us</a></li>
+                </ul>
+                <div class="hamburger" id="hamburger">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>SRAPP - Smart Rental Management</h1>
+                <p>Accelerating Property Management & Monetization</p>
+                <a href="#solution" class="cta-button">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Statement -->
+    <section id="problem" class="problem-solution">
+        <div class="container">
+            <h2 class="section-title">Problem Statement</h2>
+            <div class="two-column">
+                <div class="column">
+                    <h3>Challenges Facing Landlords & Tenants</h3>
+                    <ul>
+                        <li>Many landlords struggle with tracking payments and deposits</li>
+                        <li>Tenants face delays in receiving payment confirmations</li>
+                        <li>Manual systems are error-prone and time-consuming</li>
+                        <li>Lack of transparency in rental transactions</li>
+                    </ul>
+                </div>
+                <div class="column">
+                    <div class="image-container">
+                        <img src="images/landlord.png" alt="Frustrated landlord and tenant">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution -->
+    <section id="solution">
+        <div class="container">
+            <h2 class="section-title">Our Solution</h2>
+            <p class="section-subtitle">SRAPP: A simple, intuitive rental management app</p>
+            <div class="two-column">
+                <div class="column">
+                    <div class="image-container">
+                        <img src="images/streamlining.png" alt="SRAPP Dashboard">
+                    </div>
+                </div>
+                <div class="column">
+                    <h3>Streamlining Rental Management</h3>
+                    <ul>
+                        <li>Efficient tenant management and invoicing</li>
+                        <li>Automated payment tracking and reconciliation</li>
+                        <li>Automatic SMS confirmations for payments</li>
+                        <li>Real-time dashboard with financial overview</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Features -->
+    <section id="features" class="problem-solution">
+        <div class="container">
+            <h2 class="section-title">Key Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Tenant Management</h3>
+                    <p>Easy tenant creation and contact import for efficient management.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                    </div>
+                    <h3>Automated Invoicing</h3>
+                    <p>Deposit and recurring invoicing with automated reminders.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-sms"></i>
+                    </div>
+                    <h3>SMS Payment Integration</h3>
+                    <p>SMS listener for M-PESA, Airtel, and Equitel payments.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3>Payment Recognition</h3>
+                    <p>Automatic payment recognition & acknowledgments.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-export"></i>
+                    </div>
+                    <h3>Statement Generation</h3>
+                    <p>Export statements in PDF or CSV format for record keeping.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3>Dashboard Analytics</h3>
+                    <p>Comprehensive dashboard showing balances & due payments.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- App Screenshots -->
+    <section id="screenshots">
+        <div class="container">
+            <h2 class="section-title">App Screenshots</h2>
+            <p class="section-subtitle">Explore the intuitive interface of SRAPP</p>
+            
+            <div class="screenshot-gallery">
+                <div class="screenshot-item">
+                    <img src="images/page 1.jpeg" alt="SRAPP Main Screen" class="screenshot-img">
+                    <div class="screenshot-caption">
+                        <h4>Main Dashboard</h4>
+                        <p>Overview of all tenants with payment status and balances</p>
+                    </div>
+                </div>
+                <!-- <div class="screenshot-item">
+                    <img src="images/page 3.jpeg" alt="SRAPP Tenant Details" class="screenshot-img">
+                    <div class="screenshot-caption">
+                        <h4>Tenant Details</h4>
+                        <p>Detailed view of tenant information and payment history</p>
+                    </div>
+                </div> -->
+                <div class="screenshot-item">
+                    <img src="images/page 3.jpeg" alt="SRAPP Tenant Management" class="screenshot-img">
+                    <div class="screenshot-caption">
+                        <h4>Tenant Management</h4>
+                        <p>Edit tenant details, view transactions, and receive payments</p>
+                    </div>
+                </div>
+                <div class="screenshot-item">
+                    <img src="images/page 2.jpeg" alt="SRAPP Payment Processing" class="screenshot-img">
+                    <div class="screenshot-caption">
+                        <h4>Payment Processing</h4>
+                        <p>Streamlined payment collection and confirmation</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Market & Monetization -->
+    <section id="market" class="market-monetization">
+        <div class="container">
+            <h2 class="section-title">Market Opportunity & Monetization</h2>
+            <div class="two-column">
+                <div class="column">
+                    <h3>Market Opportunity</h3>
+                    <p>The rental and property management market is growing rapidly with increasing numbers of landlords and tenants seeking digital solutions to current pain points.</p>
+                    <div class="image-container" style="margin-top: 20px;">
+                        <img src="images/market value.png" alt="Market growth chart">
+                    </div>
+                </div>
+                <div class="column">
+                    <h3>Monetization Strategy</h3>
+                    <p>Subscription model for landlords with projected revenues:</p>
+                    <table class="monetization-table">
+                        <thead>
+                            <tr>
+                                <th>Year</th>
+                                <th>Projected Revenue (Kshs)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Year 1</td>
+                                <td>1,200,000</td>
+                            </tr>
+                            <tr>
+                                <td>Year 2</td>
+                                <td>2,400,000</td>
+                            </tr>
+                            <tr>
+                                <td>Year 3</td>
+                                <td>4,800,000</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team -->
+    <section id="team" class="problem-solution">
+        <div class="container">
+            <h2 class="section-title">Our Team</h2>
+            <p class="section-subtitle">This innovation has been inspired by the department of accounting and finance together.</p>
+            
+            <div class="team-member">
+                <div class="team-icon">
+                    <i class="fas fa-laptop-code"></i>
+                </div>
+                <div class="team-member-info">
+                    <h3>Technical Support</h3>
+                    <p><strong>King Lee of Mount Kenya University</strong></p>
+                    <p>Bachelor of Computer Science (Graduating within the year)</p>
+                    <p>Instrumental in offering technical support in coding, data flow diagrams, programming logic, remote data storage, API linkage, database architecture, and user interface (UI).</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section id="contact" class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Join Us in Accelerating SRAPP's Growth!</h2>
+                <p>We strongly believe in our technical acumen and seek partnerships to provide the necessary soft skills to convert this innovation into a successful business.</p>
+                <p>We will be honored should you contact us to discuss partnership opportunities.</p>
+                <div class="contact-buttons">
+                    <a href="mailto:pkireria@must.ac.ke" class="cta-button">
+                        <i class="fas fa-envelope" style="margin-right: 8px;"></i>Email Us
+                    </a>
+                    <a href="tel:0708771468" class="cta-button">
+                        <i class="fas fa-phone" style="margin-right: 8px;"></i>Call Us
+                    </a>
+                </div>
+                <p style="margin-top: 20px; font-size: 0.9rem;">pkireria@must.ac.ke | 0708771468 | kireriasr@gmail.com</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>SRAPP</h3>
+                    <p>Smart Rental Management System</p>
+                    <p>Accelerating Property Management & Monetization</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <a href="#problem">Problem Statement</a>
+                    <a href="#solution">Our Solution</a>
+                    <a href="#features">Key Features</a>
+                    <a href="#screenshots">Screenshots</a>
+                    <a href="#market">Market Opportunity</a>
+                    <a href="#team">Our Team</a>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact</h3>
+                    <p><i class="fas fa-envelope" style="margin-right: 10px;"></i>pkireria@must.ac.ke</p>
+                    <p><i class="fas fa-phone" style="margin-right: 10px;"></i>0708771468</p>
+                    <p><i class="fas fa-envelope" style="margin-right: 10px;"></i>kireriasr@gmail.com</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Partnership</h3>
+                    <p>We are exploring possibilities for inclusion in further development of the innovation or its incubation.</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2024 SRAPP - Smart Rental Management. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+        
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            hamburger.innerHTML = navLinks.classList.contains('active') 
+                ? '<i class="fas fa-times"></i>' 
+                : '<i class="fas fa-bars"></i>';
+        });
+        
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                hamburger.innerHTML = '<i class="fas fa-bars"></i>';
+            });
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
